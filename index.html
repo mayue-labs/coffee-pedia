@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>咖啡百科 · The Coffee Encyclopedia</title>
+<meta name="description" content="从一颗咖啡豆到一杯咖啡的完整知识图谱：品类、产区、种植、烘焙、研磨、萃取、饮品与健康指南。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============ 设计体系：暖棕复古 ============ */
+:root{
+  --coffee-900:#241611;
+  --coffee-800:#3e2723;
+  --coffee-700:#4e342e;
+  --coffee-600:#6f4e37;
+  --coffee-500:#8d6e63;
+  --coffee-400:#a1887f;
+  --caramel:#c08a3e;
+  --caramel-light:#d9a959;
+  --cream:#f7f2e7;
+  --cream-deep:#efe6d3;
+  --paper:#fbf7ef;
+  --ink:#2b201a;
+  --ink-soft:#5d4e43;
+  --line:rgba(62,39,35,.14);
+  --shadow:0 20px 60px rgba(36,22,17,.14);
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{
+  font-family:'Noto Sans SC',sans-serif;
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.75;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4,.serif{font-family:'Noto Serif SC','Playfair Display',serif}
+.en{font-family:'Playfair Display',serif}
+::selection{background:var(--caramel);color:#fff}
+
+/* 纸张纹理 */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+  background-image:radial-gradient(rgba(111,78,55,.05) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+
+/* ============ 顶部导航 ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(20px,4vw,56px);height:72px;
+  background:rgba(36,22,17,.88);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(217,169,89,.25);
+  transition:transform .4s ease;
+}
+.nav.hide{transform:translateY(-100%)}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--cream)}
+.nav-logo .bean{width:34px;height:34px}
+.nav-logo b{font-family:'Noto Serif SC',serif;font-size:19px;letter-spacing:2px}
+.nav-logo small{display:block;font-size:10px;letter-spacing:3px;color:var(--caramel-light);font-family:'Playfair Display',serif}
+.nav-links{display:flex;gap:4px;list-style:none}
+.nav-links a{
+  display:block;padding:8px 13px;font-size:13.5px;color:rgba(247,242,231,.72);
+  text-decoration:none;border-radius:99px;transition:.25s;white-space:nowrap;
+}
+.nav-links a:hover{color:var(--cream)}
+.nav-links a.active{background:var(--caramel);color:#fff;font-weight:500}
+.nav-toggle{display:none;background:none;border:none;color:var(--cream);font-size:24px;cursor:pointer}
+@media(max-width:1080px){
+  .nav-links{
+    position:fixed;top:72px;right:0;flex-direction:column;background:var(--coffee-900);
+    padding:18px;border-radius:0 0 0 18px;transform:translateX(110%);transition:.35s;
+    box-shadow:var(--shadow);max-height:70vh;overflow:auto;
+  }
+  .nav-links.open{transform:none}
+  .nav-toggle{display:block}
+}
+
+/* ============ Hero ============ */
+.hero{
+  position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;color:var(--cream);overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;z-index:-2}
+.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:heroZoom 18s ease-in-out infinite alternate}
+@keyframes heroZoom{to{transform:scale(1.14)}}
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(ellipse at center,rgba(36,22,17,.45) 0%,rgba(36,22,17,.82) 75%),
+             linear-gradient(to bottom,rgba(36,22,17,.4),transparent 30%,transparent 65%,var(--paper));
+}
+.hero-inner{padding:120px 24px 80px;max-width:900px}
+.hero .stamp{
+  display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:5px;
+  color:var(--caramel-light);text-transform:uppercase;font-family:'Playfair Display',serif;
+  border:1px solid rgba(217,169,89,.45);border-radius:99px;padding:8px 22px;margin-bottom:30px;
+}
+.hero h1{font-size:clamp(46px,8vw,96px);font-weight:900;line-height:1.15;letter-spacing:6px;margin-bottom:10px}
+.hero h1 .en{display:block;font-size:clamp(15px,2.2vw,22px);letter-spacing:8px;font-weight:500;color:var(--caramel-light);margin-top:14px;font-style:italic}
+.hero p{margin:26px auto 0;max-width:600px;color:rgba(247,242,231,.82);font-size:clamp(14px,1.6vw,17px);font-weight:300}
+.hero-stats{display:flex;justify-content:center;gap:clamp(24px,5vw,64px);margin-top:48px;flex-wrap:wrap}
+.hero-stats .item b{display:block;font-size:clamp(28px,4vw,44px);font-family:'Playfair Display',serif;color:var(--caramel-light)}
+.hero-stats .item span{font-size:12.5px;letter-spacing:2px;color:rgba(247,242,231,.6)}
+.scroll-hint{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+  color:rgba(247,242,231,.65);font-size:11px;letter-spacing:4px;writing-mode:vertical-lr;
+  display:flex;align-items:center;gap:10px;
+}
+.scroll-hint::after{content:"";width:1px;height:44px;background:linear-gradient(var(--caramel-light),transparent);animation:drip 1.8s infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1);transform-origin:top}56%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ============ 通用版式 ============ */
+section{position:relative;padding:clamp(72px,10vw,130px) clamp(20px,5vw,64px);z-index:1}
+.wrap{max-width:1180px;margin:0 auto}
+.sec-head{max-width:760px;margin-bottom:clamp(40px,6vw,72px)}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.sec-tag{
+  display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:4px;
+  color:var(--caramel);font-weight:700;margin-bottom:16px;text-transform:uppercase;
+}
+.sec-tag::before{content:"";width:28px;height:2px;background:var(--caramel)}
+.sec-head.center .sec-tag::after{content:"";width:28px;height:2px;background:var(--caramel)}
+.sec-head h2{font-size:clamp(30px,4.4vw,50px);font-weight:900;line-height:1.3;color:var(--coffee-800)}
+.sec-head h2 em{font-style:normal;color:var(--caramel)}
+.sec-head .en-sub{font-family:'Playfair Display',serif;font-style:italic;color:var(--coffee-400);font-size:15px;letter-spacing:2px;margin-top:6px}
+.sec-head p.lead{margin-top:18px;color:var(--ink-soft);font-size:clamp(14.5px,1.5vw,16.5px)}
+
+/* 滚动显现 */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}.reveal.d4{transition-delay:.4s}
+
+/* 深色区块 */
+.band{background:linear-gradient(160deg,var(--coffee-900),var(--coffee-800) 60%,#31201a);color:var(--cream)}
+.band .sec-head h2{color:var(--cream)}
+.band .sec-head p.lead{color:rgba(247,242,231,.7)}
+
+/* ============ 简史时间轴 ============ */
+.timeline{position:relative;max-width:820px;margin:0 auto;padding-left:34px}
+.timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--caramel),var(--coffee-500))}
+.t-item{position:relative;padding:0 0 42px 30px}
+.t-item::before{
+  content:"";position:absolute;left:-34px;top:8px;width:16px;height:16px;border-radius:50%;
+  background:var(--paper);border:4px solid var(--caramel);box-shadow:0 0 0 5px rgba(192,138,62,.18);
+}
+.t-item .year{font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,30px);font-weight:700;color:var(--caramel)}
+.t-item h3{font-size:19px;margin:4px 0 8px;color:var(--coffee-800)}
+.t-item p{color:var(--ink-soft);font-size:15px;max-width:640px}
+
+/* ============ 品类卡片 ============ */
+.species-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px}
+.species-card{
+  position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:34px 30px 30px;box-shadow:0 8px 30px rgba(36,22,17,.06);transition:.35s;overflow:hidden;
+}
+.species-card::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:var(--caramel)}
+.species-card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+.species-card .share{
+  position:absolute;top:22px;right:24px;font-family:'Playfair Display',serif;
+  font-size:13px;color:var(--caramel);text-align:right;line-height:1.3;
+}
+.species-card .share b{display:block;font-size:26px}
+.species-card h3{font-size:24px;color:var(--coffee-800)}
+.species-card .latin{font-family:'Playfair Display',serif;font-style:italic;color:var(--coffee-400);font-size:14px;margin-bottom:14px}
+.species-card p{font-size:14.5px;color:var(--ink-soft)}
+.species-card ul{list-style:none;margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+.species-card ul li{
+  font-size:12.5px;background:var(--cream);border:1px solid var(--line);
+  padding:4px 12px;border-radius:99px;color:var(--coffee-600);
+}
+.variety-strip{
+  margin-top:44px;background:var(--cream);border:1px dashed var(--coffee-400);
+  border-radius:var(--radius);padding:28px 30px;
+}
+.variety-strip h4{color:var(--coffee-800);font-size:17px;margin-bottom:14px}
+.variety-tags{display:flex;flex-wrap:wrap;gap:10px}
+.variety-tags span{
+  background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:13.5px;color:var(--ink-soft);
+}
+.variety-tags span b{color:var(--caramel);font-family:'Playfair Display',serif;margin-right:6px}
+
+/* ============ 产区 ============ */
+.region-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+.region-card{
+  background:rgba(247,242,231,.05);border:1px solid rgba(217,169,89,.22);border-radius:var(--radius);
+  padding:26px 24px;transition:.3s;
+}
+.region-card:hover{background:rgba(217,169,89,.1);border-color:var(--caramel)}
+.region-card .flag{font-size:13px;letter-spacing:3px;color:var(--caramel-light);font-family:'Playfair Display',serif}
+.region-card h3{font-size:20px;margin:6px 0 4px;color:var(--cream)}
+.region-card .flavor{font-size:13px;color:rgba(247,242,231,.55);margin-bottom:12px}
+.region-card p{font-size:13.5px;color:rgba(247,242,231,.75)}
+.region-card .note{margin-top:14px;font-size:12.5px;color:var(--caramel-light)}
+
+/* ============ 排名条形 ============ */
+.rank-list{display:flex;flex-direction:column;gap:16px;max-width:860px;margin:0 auto}
+.rank-row{display:grid;grid-template-columns:44px 150px 1fr 86px;align-items:center;gap:14px}
+.rank-row .no{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--coffee-400);text-align:center}
+.rank-row:nth-child(1) .no,.rank-row:nth-child(2) .no,.rank-row:nth-child(3) .no{color:var(--caramel)}
+.rank-row .name{font-weight:600;font-size:15px;color:var(--coffee-800)}
+.rank-row .name small{display:block;font-weight:400;font-size:11.5px;color:var(--coffee-400)}
+.rank-row .bar-track{height:26px;background:var(--cream-deep);border-radius:99px;overflow:hidden}
+.rank-row .bar{
+  height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--coffee-600),var(--caramel));
+  transition:width 1.2s cubic-bezier(.2,.7,.2,1);
+}
+.rank-row .val{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--coffee-700);text-align:right}
+.rank-note{max-width:860px;margin:26px auto 0;font-size:13px;color:var(--coffee-400);text-align:center}
+@media(max-width:640px){.rank-row{grid-template-columns:34px 104px 1fr 66px;gap:8px}.rank-row .name{font-size:13px}}
+
+/* ============ 种植周期步骤 ============ */
+.grow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0;position:relative}
+.grow-step{
+  position:relative;padding:34px 26px 30px;text-align:center;
+  border-right:1px dashed rgba(217,169,89,.35);
+}
+.grow-step:last-child{border-right:none}
+.grow-step .num{
+  width:58px;height:58px;margin:0 auto 18px;border-radius:50%;
+  border:2px solid var(--caramel);display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--caramel-light);
+  background:rgba(192,138,62,.08);
+}
+.grow-step h3{font-size:17.5px;color:var(--cream);margin-bottom:4px}
+.grow-step .dur{font-size:12px;letter-spacing:2px;color:var(--caramel-light);font-family:'Playfair Display',serif;margin-bottom:12px;display:block}
+.grow-step p{font-size:13.5px;color:rgba(247,242,231,.68)}
+@media(max-width:900px){.grow-step{border-right:none;border-bottom:1px dashed rgba(217,169,89,.35)}.grow-step:last-child{border-bottom:none}}
+
+/* 配图横幅 */
+.photo-band{
+  margin-top:clamp(44px,6vw,70px);border-radius:var(--radius);overflow:hidden;position:relative;box-shadow:var(--shadow);
+}
+.photo-band img{width:100%;height:clamp(240px,38vw,420px);object-fit:cover;display:block;transition:transform .8s}
+.photo-band:hover img{transform:scale(1.04)}
+.photo-band .cap{
+  position:absolute;left:0;right:0;bottom:0;padding:20px 28px;
+  background:linear-gradient(transparent,rgba(36,22,17,.85));
+  color:rgba(247,242,231,.9);font-size:13.5px;letter-spacing:1px;
+}
+
+/* ============ 烘焙度 ============ */
+.roast-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.roast-card{border-radius:var(--radius);padding:28px 24px;color:#fff;position:relative;overflow:hidden;min-height:250px;display:flex;flex-direction:column;transition:.3s}
+.roast-card:hover{transform:translateY(-6px)}
+.roast-card.r1{background:linear-gradient(150deg,#c9a06b,#a87f4c)}
+.roast-card.r2{background:linear-gradient(150deg,#9a6b42,#7d5330)}
+.roast-card.r3{background:linear-gradient(150deg,#6f4a2e,#54361f)}
+.roast-card.r4{background:linear-gradient(150deg,#46301f,#2b1c12)}
+.roast-card .deg{font-family:'Playfair Display',serif;font-size:13px;letter-spacing:2px;opacity:.85}
+.roast-card h3{font-size:22px;margin:6px 0 12px}
+.roast-card p{font-size:13.5px;opacity:.88;flex:1}
+.roast-card .temp{margin-top:14px;font-size:12.5px;letter-spacing:1px;border-top:1px solid rgba(255,255,255,.28);padding-top:12px}
+.roast-scale{display:flex;align-items:center;gap:12px;margin-top:38px;font-size:12.5px;color:var(--coffee-400);letter-spacing:2px}
+.roast-scale .gradient{flex:1;height:10px;border-radius:99px;background:linear-gradient(90deg,#c9a06b,#9a6b42,#54361f,#241611)}
+
+/* ============ 研磨 ============ */
+.grind-table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 30px rgba(36,22,17,.06)}
+.grind-table th,.grind-table td{padding:16px 18px;text-align:left;font-size:14px;border-bottom:1px solid var(--line)}
+.grind-table thead th{background:var(--coffee-800);color:var(--cream);font-size:13px;letter-spacing:1px;font-weight:500}
+.grind-table tbody tr:last-child td{border-bottom:none}
+.grind-table tbody tr:hover{background:var(--cream)}
+.grind-table td b{color:var(--coffee-800)}
+.grind-table .tex{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:8px;vertical-align:-2px}
+.grind-scroll{overflow-x:auto;border-radius:var(--radius)}
+@media(max-width:760px){.grind-table{min-width:640px}}
+
+/* ============ 萃取卡片 ============ */
+.brew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.brew-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px 28px;
+  box-shadow:0 8px 30px rgba(36,22,17,.06);transition:.35s;position:relative;
+}
+.brew-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.brew-card .icon{font-size:30px;margin-bottom:12px}
+.brew-card h3{font-size:20px;color:var(--coffee-800)}
+.brew-card .en-name{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--coffee-400);margin-bottom:14px}
+.brew-card .params{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.brew-card .param{background:var(--cream);border-radius:10px;padding:10px 12px}
+.brew-card .param small{display:block;font-size:11px;letter-spacing:1px;color:var(--coffee-400)}
+.brew-card .param b{font-size:14.5px;color:var(--coffee-700);font-family:'Playfair Display',serif}
+.brew-card p{font-size:13.5px;color:var(--ink-soft)}
+.brew-card .flavor-tag{margin-top:14px;font-size:12.5px;color:var(--caramel);font-weight:600;letter-spacing:1px}
+
+/* ============ 饮品图谱 Tab ============ */
+.drink-tabs{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:44px}
+.drink-tabs button{
+  font-family:'Noto Sans SC',sans-serif;font-size:14px;padding:10px 22px;border-radius:99px;cursor:pointer;
+  border:1px solid rgba(217,169,89,.4);background:transparent;color:rgba(247,242,231,.75);transition:.25s;
+}
+.drink-tabs button:hover{border-color:var(--caramel);color:var(--cream)}
+.drink-tabs button.on{background:var(--caramel);border-color:var(--caramel);color:#fff;font-weight:600}
+.drink-panel{display:none;animation:fadeUp .5s ease}
+.drink-panel.on{display:grid;grid-template-columns:200px 1fr;gap:clamp(24px,5vw,60px);align-items:center;max-width:880px;margin:0 auto}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1}}
+.drink-cup{
+  width:200px;height:230px;margin:0 auto;position:relative;
+  border:5px solid var(--caramel-light);border-top-width:3px;border-radius:14px 14px 90px 90px;
+  background:rgba(247,242,231,.06);overflow:hidden;display:flex;flex-direction:column-reverse;
+}
+.drink-cup::after{
+  content:"";position:absolute;right:-34px;top:52px;width:44px;height:64px;
+  border:8px solid var(--caramel-light);border-left:none;border-radius:0 30px 30px 0;
+}
+.drink-cup .layer{width:100%;transition:height .6s ease;position:relative}
+.drink-cup .layer span{
+  position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  font-size:11px;color:rgba(255,255,255,.85);letter-spacing:1px;white-space:nowrap;
+}
+.drink-info h3{font-size:clamp(24px,3vw,34px);color:var(--cream)}
+.drink-info .en-name{font-family:'Playfair Display',serif;font-style:italic;color:var(--caramel-light);margin-bottom:16px;font-size:15px}
+.drink-info p{color:rgba(247,242,231,.75);font-size:14.5px;max-width:560px}
+.drink-info .ratio{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px}
+.drink-info .ratio span{font-size:12.5px;background:rgba(217,169,89,.14);border:1px solid rgba(217,169,89,.35);color:var(--caramel-light);padding:5px 14px;border-radius:99px}
+@media(max-width:680px){.drink-panel.on{grid-template-columns:1fr;text-align:center}.drink-info .ratio{justify-content:center}.drink-info p{margin:0 auto}}
+
+/* ============ 咖啡因图表 ============ */
+.caf-wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.caf-row{display:grid;grid-template-columns:170px 1fr 70px;gap:14px;align-items:center}
+.caf-row .name{font-size:14.5px;font-weight:600;color:var(--coffee-800);text-align:right}
+.caf-row .name small{display:block;font-weight:400;font-size:11px;color:var(--coffee-400)}
+.caf-row .track{height:30px;background:var(--cream-deep);border-radius:8px;overflow:hidden}
+.caf-row .fill{
+  height:100%;width:0;background:linear-gradient(90deg,var(--caramel-light),var(--caramel));
+  border-radius:8px;transition:width 1.2s cubic-bezier(.2,.7,.2,1);
+}
+.caf-row .mg{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:var(--coffee-700)}
+.caf-limit{
+  max-width:860px;margin:36px auto 0;display:flex;gap:14px;align-items:flex-start;
+  background:#fff;border-left:4px solid var(--caramel);border-radius:12px;padding:20px 24px;
+  box-shadow:0 8px 30px rgba(36,22,17,.06);font-size:14px;color:var(--ink-soft);
+}
+.caf-limit b{color:var(--caramel)}
+@media(max-width:640px){.caf-row{grid-template-columns:110px 1fr 56px}.caf-row .name{font-size:12px}}
+
+/* ============ 健康 ============ */
+.health-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media(max-width:820px){.health-grid{grid-template-columns:1fr}}
+.health-col{border-radius:var(--radius);padding:32px 30px}
+.health-col.good{background:rgba(247,242,231,.06);border:1px solid rgba(217,169,89,.3)}
+.health-col.bad{background:rgba(36,22,17,.35);border:1px solid rgba(247,242,231,.14)}
+.health-col h3{font-size:20px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.health-col.good h3{color:var(--caramel-light)}
+.health-col.bad h3{color:#e0a08a}
+.health-col ul{list-style:none;display:flex;flex-direction:column;gap:16px}
+.health-col li{display:flex;gap:12px;font-size:14px;color:rgba(247,242,231,.78)}
+.health-col li b{color:var(--cream);display:block;font-size:14.5px}
+.health-col li::before{content:"●";font-size:10px;margin-top:7px;flex-shrink:0}
+.health-col.good li::before{color:var(--caramel-light)}
+.health-col.bad li::before{color:#e0a08a}
+
+/* 注意事项手风琴 */
+.faq{max-width:820px;margin:clamp(44px,6vw,64px) auto 0}
+.faq-item{border:1px solid rgba(217,169,89,.28);border-radius:14px;margin-bottom:14px;overflow:hidden;background:rgba(247,242,231,.04);transition:.3s}
+.faq-item.open{background:rgba(217,169,89,.1);border-color:var(--caramel)}
+.faq-q{
+  width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:20px 24px;background:none;border:none;cursor:pointer;text-align:left;
+  font-family:'Noto Serif SC',serif;font-size:16.5px;font-weight:600;color:var(--cream);
+}
+.faq-q .arrow{flex-shrink:0;width:26px;height:26px;border-radius:50%;border:1px solid var(--caramel);color:var(--caramel-light);display:flex;align-items:center;justify-content:center;font-size:14px;transition:transform .3s}
+.faq-item.open .arrow{transform:rotate(45deg);background:var(--caramel);color:#fff}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-a .inner{padding:0 24px 22px;font-size:14px;color:rgba(247,242,231,.72)}
+
+/* ============ 保存 ============ */
+.store-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+.store-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;box-shadow:0 8px 30px rgba(36,22,17,.06);transition:.3s}
+.store-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.store-card .icon{font-size:28px;margin-bottom:12px}
+.store-card h3{font-size:18px;color:var(--coffee-800);margin-bottom:8px}
+.store-card p{font-size:13.5px;color:var(--ink-soft)}
+.store-card .do{margin-top:14px;font-size:12.5px;color:var(--caramel);font-weight:600}
+
+/* ============ 页脚 ============ */
+footer{background:var(--coffee-900);color:rgba(247,242,231,.55);padding:60px 24px 40px;text-align:center;position:relative;z-index:1}
+footer .f-logo{font-family:'Playfair Display',serif;font-size:26px;color:var(--caramel-light);font-style:italic;margin-bottom:10px}
+footer p{font-size:13px;max-width:560px;margin:0 auto 8px}
+footer .fine{font-size:11.5px;color:rgba(247,242,231,.3);margin-top:22px;letter-spacing:1px}
+
+/* 回顶 */
+.to-top{
+  position:fixed;right:26px;bottom:26px;z-index:90;width:48px;height:48px;border-radius:50%;
+  background:var(--coffee-800);color:var(--caramel-light);border:1px solid var(--caramel);
+  font-size:20px;cursor:pointer;opacity:0;pointer-events:none;transition:.35s;box-shadow:var(--shadow);
+}
+.to-top.show{opacity:1;pointer-events:auto}
+.to-top:hover{background:var(--caramel);color:#fff}
+</style>
+</head>
+<body>
+
+<!-- ================= 导航 ================= -->
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="#top">
+    <svg class="bean" viewBox="0 0 40 40" fill="none"><ellipse cx="20" cy="20" rx="13" ry="18" transform="rotate(20 20 20)" fill="#c08a3e"/><path d="M14 4 C 22 14, 18 26, 26 36" stroke="#3e2723" stroke-width="3" fill="none" transform="rotate(20 20 20)"/></svg>
+    <span><b>咖啡百科</b><small>COFFEE PEDIA</small></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#history">简史</a></li>
+    <li><a href="#species">豆种</a></li>
+    <li><a href="#region">产区</a></li>
+    <li><a href="#rank">畅销排名</a></li>
+    <li><a href="#grow">种植</a></li>
+    <li><a href="#roast">烘焙</a></li>
+    <li><a href="#grind">研磨</a></li>
+    <li><a href="#brew">萃取</a></li>
+    <li><a href="#drinks">饮品</a></li>
+    <li><a href="#caffeine">咖啡因</a></li>
+    <li><a href="#health">健康</a></li>
+    <li><a href="#store">保存</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="菜单">☰</button>
+</nav>
+
+<!-- ================= Hero ================= -->
+<header class="hero" id="top">
+  <div class="hero-bg"><img src="assets/hero-beans.jpg" alt="烘焙咖啡豆"></div>
+  <div class="hero-inner">
+    <div class="stamp reveal in">From Bean to Cup · 从种子到杯子</div>
+    <h1>咖啡百科<span class="en">The Coffee Encyclopedia</span></h1>
+    <p>一杯咖啡的背后，是跨越千年的历史、三大原生豆种、数十个产区的风土，以及从种植、烘焙、研磨到萃取的完整工艺链条。这里是关于咖啡的一切。</p>
+    <div class="hero-stats">
+      <div class="item"><b data-count="130">0</b><span>咖啡属物种</span></div>
+      <div class="item"><b data-count="70">0</b><span>+ 生产国</span></div>
+      <div class="item"><b data-count="20">0</b><span>亿杯 / 天·全球</span></div>
+      <div class="item"><b data-count="1000">0</b><span>+ 种风味物质</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
+
+<!-- ================= 简史 ================= -->
+<section id="history">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">Chapter 01 · History</div>
+      <h2>一粒浆果的<em>千年漂流</em></h2>
+      <div class="en-sub">A Brief History of Coffee</div>
+      <p class="lead">从埃塞俄比亚高原的传说，到遍布全球的咖啡馆文化，咖啡用一千年完成了从提神药果到世界第二大饮品（仅次于水）的旅程。</p>
+    </div>
+    <div class="timeline">
+      <div class="t-item reveal"><div class="year">约 850 年</div><h3>卡尔迪与他的山羊</h3><p>传说埃塞俄比亚牧羊人卡尔迪发现山羊吃了一种红色浆果后异常兴奋，咖啡由此被人类认识。虽然故事无法考证，但埃塞俄比亚被公认为咖啡的基因故乡。</p></div>
+      <div class="t-item reveal"><div class="year">15 世纪</div><h3>也门的苏菲修道院</h3><p>有文字记载的最早饮用来自也门。苏菲派修士夜间修行时煮饮咖啡提神，摩卡港由此成为历史上第一个咖啡贸易中心。</p></div>
+      <div class="t-item reveal"><div class="year">1554</div><h3>世界首家咖啡馆</h3><p>君士坦丁堡（今伊斯坦布尔）出现公认的早期咖啡馆，咖啡开始从宗教仪式走向世俗社交生活。</p></div>
+      <div class="t-item reveal"><div class="year">1652</div><h3>欧洲的"清醒革命"</h3><p>伦敦第一家咖啡馆开业，被称为"便士大学"——一便士入场即可参与思想交锋。咖啡馆随后席卷巴黎、维也纳，成为启蒙运动的温床。</p></div>
+      <div class="t-item reveal"><div class="year">1727</div><h3>咖啡登陆巴西</h3><p>葡萄牙军官将咖啡苗带入巴西。凭借得天独厚的气候，巴西在两百年内崛起为世界第一大生产国并保持至今。</p></div>
+      <div class="t-item reveal"><div class="year">1901</div><h3>速溶与浓缩的诞生</h3><p>日裔化学家加藤サトリ发明速溶咖啡工艺；同年米兰工程师贝泽拉申请意式浓缩机专利——咖啡的"快时代"开启。</p></div>
+      <div class="t-item reveal"><div class="year">1971–今</div><h3>三波咖啡浪潮</h3><p>第一波：速溶普及；第二波：星巴克（1971 年创立）推动意式咖啡全球化与"第三空间"；第三波：精品咖啡运动将咖啡视为风土表达，像品鉴葡萄酒一样品鉴咖啡。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 豆种 ================= -->
+<section id="species" style="background:var(--cream)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Chapter 02 · Species</div>
+      <h2>全球咖啡豆，<em>到底有多少种？</em></h2>
+      <div class="en-sub">Coffee Species &amp; Varieties</div>
+      <p class="lead">植物学上，咖啡属（Coffea）已确认的物种超过 <b>130 个</b>，但被商业化种植的主要只有三种：阿拉比卡、罗布斯塔与利比里卡。我们每天喝的咖啡，几乎都来自前两者。</p>
+    </div>
+    <div class="species-grid">
+      <div class="species-card reveal">
+        <div class="share">全球产量占比<b>~60%</b></div>
+        <h3>阿拉比卡</h3><div class="latin">Coffea arabica</div>
+        <p>风味之王。生长在海拔 600–2200 米的高地，酸质明亮、层次丰富，带有花果与焦糖调性。咖啡因较低（约 1.2%–1.5%），但娇贵怕冷怕虫，种植成本高。精品咖啡几乎全是阿拉比卡。</p>
+        <ul><li>高海拔</li><li>低咖啡因</li><li>风味细腻</li><li>精品首选</li></ul>
+      </div>
+      <div class="species-card reveal d1">
+        <div class="share">全球产量占比<b>~39%</b></div>
+        <h3>罗布斯塔</h3><div class="latin">Coffea canephora</div>
+        <p>刚强务实。低海拔（0–800 米）即可生长，抗病虫害能力强、产量高。咖啡因约为阿拉比卡的两倍（2.2%–2.7%），口感浓烈、苦感厚重、油脂丰富，是速溶咖啡与意式拼配的主力。越南是全球最大罗豆产地。</p>
+        <ul><li>低海拔</li><li>高咖啡因</li><li>油脂厚</li><li>速溶/拼配</li></ul>
+      </div>
+      <div class="species-card reveal d2">
+        <div class="share">全球产量占比<b>&lt;2%</b></div>
+        <h3>利比里卡</h3><div class="latin">Coffea liberica</div>
+        <p>稀有小众。豆形硕大不规则，风味独特——烟熏、木质调中带菠萝蜜般的热带果香，爱恨分明。主产菲律宾与马来西亚，是当地"巴图咖啡"的灵魂。近年因气候变化研究而重新受到关注。</p>
+        <ul><li>豆形巨大</li><li>烟熏果香</li><li>菲律宾/马来</li><li>极度稀有</li></ul>
+      </div>
+    </div>
+    <div class="variety-strip reveal">
+      <h4>阿拉比卡旗下的明星变种（Variety）—— 相当于葡萄酒的"葡萄品种"</h4>
+      <div class="variety-tags">
+        <span><b>Typica</b>铁皮卡 · 阿拉比卡始祖，干净甜美</span>
+        <span><b>Bourbon</b>波旁 · 铁皮卡自然变异，酸甜平衡</span>
+        <span><b>Geisha</b>瑰夏 · 巴拿马传奇，茉莉花香，拍卖价屡破纪录</span>
+        <span><b>Caturra</b>卡杜拉 · 波旁矮化变种，拉美广泛种植</span>
+        <span><b>SL28/34</b>肯尼亚经典，黑加仑般的莓果酸</span>
+        <span><b>Heirloom</b>埃塞原生种 · 数千个未命名地方品种的统称</span>
+        <span><b>Pacamara</b>帕卡马拉 · 萨尔瓦多培育，豆大味浓</span>
+        <span><b>Catimor</b>卡蒂姆 · 含罗豆基因的抗病杂交种，云南主力</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 产区 ================= -->
+<section id="region" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Chapter 03 · Terroir</div>
+      <h2>世界产区<em>风味地图</em></h2>
+      <div class="en-sub">Coffee Belt: 南北回归线之间的咖啡种植带</div>
+      <p class="lead">咖啡只生长在赤道两侧南北纬 25° 之间的"咖啡带"（Coffee Belt）。海拔、土壤、降雨与处理法共同塑造了每个产区独一无二的风味指纹。</p>
+    </div>
+    <div class="region-grid">
+      <div class="region-card reveal"><div class="flag">AFRICA · 非洲</div><h3>埃塞俄比亚</h3><div class="flavor">茉莉花香 · 柠檬 · 红茶感</div><p>咖啡的基因库，耶加雪菲与西达摩名扬世界。水洗豆清透优雅，日晒豆莓果炸裂。</p><div class="note">关键词：原生种 Heirloom、花果香天花板</div></div>
+      <div class="region-card reveal d1"><div class="flag">AFRICA · 非洲</div><h3>肯尼亚</h3><div class="flavor">黑加仑 · 莓果 · 圣女果酸</div><p>SL28/SL34 品种 + 双重水洗发酵，造就了世界公认最"酸得高级"的咖啡。</p><div class="note">关键词：AA 等级、拍卖制度</div></div>
+      <div class="region-card reveal d2"><div class="flag">S.AMERICA · 南美</div><h3>巴西</h3><div class="flavor">坚果 · 巧克力 · 低酸醇厚</div><p>世界第一大生产国（约占全球 1/3）。半日晒处理带来平衡的甜感，是意式拼配的基豆之王。</p><div class="note">关键词：产量霸主、拼配基底</div></div>
+      <div class="region-card reveal d3"><div class="flag">S.AMERICA · 南美</div><h3>哥伦比亚</h3><div class="flavor">焦糖 · 柑橘 · 均衡干净</div><p>安第斯山脉的火山土壤 + 全年两季收获。"均衡"是哥伦比亚的金字招牌，单品与拼配皆宜。</p><div class="note">关键词：慧兰产区、全年采收</div></div>
+      <div class="region-card reveal"><div class="flag">C.AMERICA · 中美</div><h3>巴拿马</h3><div class="flavor">茉莉 · 佛手柑 · 蜂蜜</div><p>翡翠庄园的瑰夏在此一战封神，2023 年拍卖价高达每公斤 1 万美元以上，是精品咖啡的圣杯。</p><div class="note">关键词：瑰夏圣地、BOP 生豆大赛</div></div>
+      <div class="region-card reveal d1"><div class="flag">C.AMERICA · 中美</div><h3>哥斯达黎加</h3><div class="flavor">蜜感 · 热带水果 · 干净</div><p>蜜处理（Honey Process）的发源地之一，全国法律禁止种植罗布斯塔，专注精品阿拉比卡。</p><div class="note">关键词：蜜处理、塔拉珠产区</div></div>
+      <div class="region-card reveal d2"><div class="flag">ASIA · 亚洲</div><h3>印度尼西亚</h3><div class="flavor">草本 · 香料 · 黑巧醇厚</div><p>苏门答腊曼特宁以湿刨法处理，低酸厚重、药草与泥土气息独特。猫屎咖啡（Kopi Luwak）亦源于此。</p><div class="note">关键词：曼特宁、湿刨法</div></div>
+      <div class="region-card reveal d3"><div class="flag">ASIA · 亚洲</div><h3>中国云南</h3><div class="flavor">坚果 · 红糖 · 微果酸</div><p>普洱与保山产区已有百余年种植史，卡蒂姆为主力品种，近年水洗精品化转型迅猛，国际赛事屡获高分。</p><div class="note">关键词：国产之光、精品化崛起</div></div>
+    </div>
+    <div class="photo-band reveal">
+      <img src="assets/plantation.jpg" alt="山间咖啡种植园">
+      <div class="cap">埃塞俄比亚高地咖啡林 —— 咖啡树与遮荫树共生，红色咖啡樱桃在雨季后的山坡上成熟</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 畅销排名 ================= -->
+<section id="rank">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">Chapter 04 · Ranking</div>
+      <h2>谁在供给<em>全世界的咖啡？</em></h2>
+      <div class="en-sub">Top Coffee Producing Countries</div>
+      <p class="lead">按年产量排名（单位：万吨生豆，近年平均）。前四名贡献了全球约 70% 的产量。</p>
+    </div>
+    <div class="rank-list" id="rankList">
+      <div class="rank-row reveal" data-w="100"><div class="no">1</div><div class="name">巴西<small>Arabica + Robusta</small></div><div class="bar-track"><div class="bar"></div></div><div class="val">~370</div></div>
+      <div class="rank-row reveal d1" data-w="51"><div class="no">2</div><div class="name">越南<small>以 Robusta 为主</small></div><div class="bar-track"><div class="bar"></div></div><div class="val">~190</div></div>
+      <div class="rank-row reveal d2" data-w="33"><div class="no">3</div><div class="name">哥伦比亚<small>水洗 Arabica</small></div><div class="bar-track"><div class="bar"></div></div><div class="val">~120</div></div>
+      <div class="rank-row reveal" data-w="30"><div class="no">4</div><div class="name">印度尼西亚<small>Arabica + Robusta</small></div><div class="bar-track"><div class="bar"></div></div><div class="val">~110</div></div>
+      <div class="rank-row reveal d1" data-w="25"><div class="no">5</div><div class="name">埃塞俄比亚<small>Arabica 故乡</small></div><div class="bar-track"><div class="bar"></div></div><div class="val">~90</div></div>
+      <div class="rank-row reveal d2" data-w="19"><div class="no">6</div><div class="name">洪都拉斯<small>中美洲第一</small></div><div class="bar-track"><div class="bar"></div></div><div class="val">~70</div></div>
+      <div class="rank-row reveal" data-w="16"><div class="no">7</div><div class="name">印度<small>遮荫种植 Robusta</small></div><div class="bar-track"><div class="bar"></div></div><div class="val">~60</div></div>
+      <div class="rank-row reveal d1" data-w="15"><div class="no">8</div><div class="name">乌干达<small>非洲 Robusta 大国</small></div><div class="bar-track"><div class="bar"></div></div><div class="val">~56</div></div>
+    </div>
+    <p class="rank-note reveal">消费量角度：卢森堡、芬兰、瑞典人均年饮用量全球前三（芬兰人均每天约 4–5 杯）；总量上美国是全球最大咖啡消费国，中国则是增长最快的咖啡市场。</p>
+  </div>
+</section>
+
+<!-- ================= 种植周期 ================= -->
+<section id="grow" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Chapter 05 · Cultivation</div>
+      <h2>种植周期：从种子到杯中的<em>漫长旅程</em></h2>
+      <div class="en-sub">The Journey of a Coffee Bean</div>
+      <p class="lead">一颗咖啡种子从入土到变成您杯中的咖啡，至少需要 <b>3–4 年</b>。一杯咖啡的背后，是跨越数个年度的等待。</p>
+    </div>
+    <div class="grow-grid">
+      <div class="grow-step reveal"><div class="num">01</div><h3>育苗</h3><span class="dur">第 0–12 个月</span><p>种子在苗圃发芽，长成 30–40 厘米的幼苗后移栽至田间。</p></div>
+      <div class="grow-step reveal d1"><div class="num">02</div><h3>成长期</h3><span class="dur">第 1–3 年</span><p>幼树持续生长但未结果，需遮荫、施肥、修枝，是纯粹的投入期。</p></div>
+      <div class="grow-step reveal d2"><div class="num">03</div><h3>开花结果</h3><span class="dur">第 3–4 年</span><p>首次开花——白色小花如茉莉芬芳。花后 6–9 个月果实由绿转红，成为"咖啡樱桃"。</p></div>
+      <div class="grow-step reveal d3"><div class="num">04</div><h3>采收处理</h3><span class="dur">每年一季</span><p>手工或机器采收后，经水洗 / 日晒 / 蜜处理去除果肉，干燥至含水率 11% 左右。</p></div>
+      <div class="grow-step reveal d4"><div class="num">05</div><h3>丰产期</h3><span class="dur">第 7–20 年</span><p>进入盛产阶段，一棵树的黄金产出期约 15 年，全生命周期约 20–30 年。</p></div>
+    </div>
+    <div class="photo-band reveal">
+      <img src="assets/harvest.jpg" alt="采摘咖啡樱桃">
+      <div class="cap">手工采摘成熟咖啡樱桃 —— 精品咖啡坚持"只摘红果"，一条树枝需反复采收多轮</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 烘焙 ================= -->
+<section id="roast">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">Chapter 06 · Roasting</div>
+      <h2>烘焙度：一场<em>风味与苦味</em>的博弈</h2>
+      <div class="en-sub">Roast Levels</div>
+      <p class="lead">烘焙让生豆中的糖类与氨基酸发生美拉德反应，产生 1000 多种芳香物质。烘得越浅越保留产区个性（酸与花果香），烘得越深越走向焦糖化（苦与醇厚）。</p>
+    </div>
+    <div class="roast-grid">
+      <div class="roast-card r1 reveal"><div class="deg">LIGHT ROAST</div><h3>浅度烘焙</h3><p>一爆初密集即下豆。酸质明亮活泼，柑橘、花香与产地风味最完整，适合手冲品鉴。咖啡因保留相对更多。</p><div class="temp">豆温约 196–205°C · 肉桂色</div></div>
+      <div class="roast-card r2 reveal d1"><div class="deg">MEDIUM ROAST</div><h3>中度烘焙</h3><p>一爆结束前后。酸甜趋于平衡，出现焦糖与坚果调，是风味接受度最高的烘焙度，美式滴滤与手冲皆宜。</p><div class="temp">豆温约 205–215°C · 栗子色</div></div>
+      <div class="roast-card r3 reveal d2"><div class="deg">MEDIUM-DARK</div><h3>中深烘焙</h3><p>临近二爆。苦甜交织，黑巧克力与烤面包气息显现，醇厚度上升，奶咖与意式浓缩的经典区间。</p><div class="temp">豆温约 215–225°C · 深褐色微油</div></div>
+      <div class="roast-card r4 reveal d3"><div class="deg">DARK ROAST</div><h3>深度烘焙</h3><p>二爆密集后。烟熏、炭烧与苦甜主导，产地个性几乎消失，表面油亮。法式 / 意式深焙，传统拿铁与速溶常用。</p><div class="temp">豆温约 225–245°C · 近黑色油亮</div></div>
+    </div>
+    <div class="roast-scale reveal"><span>酸 · 花果香 · 产地风味</span><div class="gradient"></div><span>苦 · 醇厚 · 焦糖化</span></div>
+    <div class="photo-band reveal">
+      <img src="assets/roasting.jpg" alt="咖啡豆烘焙">
+      <div class="cap">滚筒烘焙机 —— 烘焙师通过温度曲线与"一爆、二爆"的声音判断下豆时机</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 研磨 ================= -->
+<section id="grind" style="background:var(--cream)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Chapter 07 · Grinding</div>
+      <h2>研磨粗细：<em>萃取成败</em>的第一变量</h2>
+      <div class="en-sub">Grind Size Guide</div>
+      <p class="lead">研磨度决定水与咖啡粉的接触面积：越细萃取越快越充分，过细则过萃发苦发涩；越粗萃取越慢，过粗则萃取不足，酸寡无味。研磨度必须与冲煮方式匹配。咖啡粉接触空气后 15 分钟内香气大幅流失，<b>现磨是风味保鲜的第一原则</b>。</p>
+    </div>
+    <div class="grind-scroll reveal">
+      <table class="grind-table">
+        <thead><tr><th>研磨度</th><th>颗粒质感</th><th>粒径参考</th><th>适配冲煮方式</th><th>萃取时长</th></tr></thead>
+        <tbody>
+          <tr><td><b>极粗</b></td><td><span class="tex" style="background:#d7b98a"></span>碎胡椒粒</td><td>1300–1600 μm</td><td>冷萃、冰滴</td><td>12–24 小时</td></tr>
+          <tr><td><b>粗研磨</b></td><td><span class="tex" style="background:#c9a06b"></span>粗海盐</td><td>900–1300 μm</td><td>法压壶、杯测</td><td>4 分钟左右</td></tr>
+          <tr><td><b>中粗</b></td><td><span class="tex" style="background:#b8875a"></span>粗砂糖</td><td>700–900 μm</td><td>Chemex、聪明杯</td><td>3–4 分钟</td></tr>
+          <tr><td><b>中度</b></td><td><span class="tex" style="background:#a1703f"></span>白砂糖 / 细沙</td><td>500–700 μm</td><td>滴滤机、V60 手冲</td><td>2–3 分钟</td></tr>
+          <tr><td><b>中细</b></td><td><span class="tex" style="background:#8d5a30"></span>精制盐</td><td>300–500 μm</td><td>摩卡壶、爱乐压</td><td>1–2 分钟</td></tr>
+          <tr><td><b>细研磨</b></td><td><span class="tex" style="background:#6f4522"></span>面粉前段触感</td><td>200–300 μm</td><td>意式浓缩机</td><td>25–30 秒</td></tr>
+          <tr><td><b>极细</b></td><td><span class="tex" style="background:#4a2c14"></span>面粉 / 粉末</td><td>&lt;200 μm</td><td>土耳其壶（连渣煮）</td><td>短时煮沸</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 萃取 ================= -->
+<section id="brew">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">Chapter 08 · Brewing</div>
+      <h2>八大萃取方式<em>全景对比</em></h2>
+      <div class="en-sub">Extraction Methods Compared</div>
+      <p class="lead">所有冲煮的本质都是同一件事：让热水以合适的温度、时间与压力，把咖啡粉中 18%–22% 的可溶性物质恰到好处地带出来（金杯萃取率）。方式不同，风味迥异。</p>
+    </div>
+    <div class="brew-grid">
+      <div class="brew-card reveal"><div class="icon">⚡</div><h3>意式浓缩</h3><div class="en-name">Espresso</div>
+        <div class="params"><div class="param"><small>粉水比</small><b>1:2</b></div><div class="param"><small>水温</small><b>92–94°C</b></div><div class="param"><small>时长</small><b>25–30 秒</b></div><div class="param"><small>压力</small><b>9 bar</b></div></div>
+        <p>高压热水瞬间穿透细粉，萃出浓缩液与金黄色油脂（Crema）。是一切意式咖啡的灵魂基底。</p>
+        <div class="flavor-tag">风味：浓烈集中 · 油脂绵密</div>
+      </div>
+      <div class="brew-card reveal d1"><div class="icon">🌧️</div><h3>手冲滴滤</h3><div class="en-name">Pour Over (V60)</div>
+        <div class="params"><div class="param"><small>粉水比</small><b>1:15–17</b></div><div class="param"><small>水温</small><b>88–92°C</b></div><div class="param"><small>时长</small><b>2:30–3:30</b></div><div class="param"><small>研磨</small><b>中度</b></div></div>
+        <p>注水手法与水流路径全由人掌控，最能展现单一产区豆的层次与干净度，精品店标配。</p>
+        <div class="flavor-tag">风味：干净明亮 · 层次清晰</div>
+      </div>
+      <div class="brew-card reveal d2"><div class="icon">🏺</div><h3>法压壶</h3><div class="en-name">French Press</div>
+        <div class="params"><div class="param"><small>粉水比</small><b>1:12–15</b></div><div class="param"><small>水温</small><b>93–96°C</b></div><div class="param"><small>时长</small><b>4 分钟</b></div><div class="param"><small>研磨</small><b>粗</b></div></div>
+        <p>完全浸泡式萃取 + 金属滤网不过滤油脂，口感厚重圆润，操作零门槛，家用最友好。</p>
+        <div class="flavor-tag">风味：醇厚饱满 · 油脂丰富</div>
+      </div>
+      <div class="brew-card reveal"><div class="icon">🚀</div><h3>爱乐压</h3><div class="en-name">AeroPress</div>
+        <div class="params"><div class="param"><small>粉水比</small><b>1:10–15</b></div><div class="param"><small>水温</small><b>80–92°C</b></div><div class="param"><small>时长</small><b>1–2 分钟</b></div><div class="param"><small>研磨</small><b>中细</b></div></div>
+        <p>浸泡 + 轻压力 hybrid 设计，玩法极多（正压/反压/冰酿），世界爱乐压大赛每年诞生无数冠军配方。</p>
+        <div class="flavor-tag">风味：均衡顺滑 · 可玩性高</div>
+      </div>
+      <div class="brew-card reveal d1"><div class="icon">🔥</div><h3>摩卡壶</h3><div class="en-name">Moka Pot</div>
+        <div class="params"><div class="param"><small>粉水比</small><b>约 1:8</b></div><div class="param"><small>热源</small><b>明火/电陶</b></div><div class="param"><small>压力</small><b>1.5 bar</b></div><div class="param"><small>研磨</small><b>中细</b></div></div>
+        <p>意国家庭百年标配。蒸汽压力将热水推过咖啡粉，得到接近浓缩的浓烈口感，做奶咖性价比之王。</p>
+        <div class="flavor-tag">风味：浓烈厚重 · 接近意式</div>
+      </div>
+      <div class="brew-card reveal d2"><div class="icon">❄️</div><h3>冷萃 / 冰滴</h3><div class="en-name">Cold Brew</div>
+        <div class="params"><div class="param"><small>粉水比</small><b>1:8–12</b></div><div class="param"><small>水温</small><b>0–4°C</b></div><div class="param"><small>时长</small><b>12–24 小时</b></div><div class="param"><small>研磨</small><b>极粗</b></div></div>
+        <p>低温长时间慢萃取，几乎不带出苦与酸的物质，口感甘甜顺滑，咖啡因反而更高，加冰直饮或兑奶皆可。</p>
+        <div class="flavor-tag">风味：甘甜顺滑 · 低酸低苦</div>
+      </div>
+      <div class="brew-card reveal"><div class="icon">🧪</div><h3>虹吸壶</h3><div class="en-name">Siphon</div>
+        <div class="params"><div class="param"><small>粉水比</small><b>1:13–15</b></div><div class="param"><small>水温</small><b>90–95°C</b></div><div class="param"><small>时长</small><b>约 2 分钟</b></div><div class="param"><small>研磨</small><b>中度</b></div></div>
+        <p>利用蒸汽压与真空原理让水上下循环，如实验室般优雅。出品干净、香气集中，观赏性拉满。</p>
+        <div class="flavor-tag">风味：干净通透 · 仪式感强</div>
+      </div>
+      <div class="brew-card reveal d1"><div class="icon">🕌</div><h3>土耳其壶</h3><div class="en-name">Turkish Cezve</div>
+        <div class="params"><div class="param"><small>粉水比</small><b>约 1:9</b></div><div class="param"><small>研磨</small><b>极细粉末</b></div><div class="param"><small>方式</small><b>连渣煮</b></div><div class="param"><small>滤纸</small><b>不过滤</b></div></div>
+        <p>人类最古老的冲煮法。铜壶慢煮出泡沫层，连粉倒入杯中静置后饮用，2013 年被列入联合国非遗名录。</p>
+        <div class="flavor-tag">风味：浓郁原始 · 文化底蕴</div>
+      </div>
+    </div>
+    <div class="photo-band reveal">
+      <img src="assets/pour-over.jpg" alt="手冲咖啡">
+      <div class="cap">手冲注水 —— 先焖蒸排气 30 秒，再以螺旋路径分段注水，控制水流就是控制萃取</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 饮品图谱 ================= -->
+<section id="drinks" class="band">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">Chapter 09 · Menu</div>
+      <h2>经典饮品<em>配方图谱</em></h2>
+      <div class="en-sub">The Coffee Menu Decoded</div>
+      <p class="lead">意式菜单上所有饮品，本质都是「浓缩 : 热水 : 奶 : 奶泡」四种元素的比例游戏。点击切换，看每杯的结构剖面。</p>
+    </div>
+    <div class="drink-tabs reveal" id="drinkTabs"></div>
+    <div id="drinkPanels"></div>
+  </div>
+</section>
+
+<!-- ================= 咖啡因 ================= -->
+<section id="caffeine">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">Chapter 10 · Caffeine</div>
+      <h2>一杯咖啡里，<em>到底有多少咖啡因？</em></h2>
+      <div class="en-sub">Caffeine Content Comparison</div>
+      <p class="lead">直观对比常见饮品的咖啡因含量（毫克 / 标准杯）。<b>冰美式不一定是"最猛"的——冷萃往往更高。</b></p>
+    </div>
+    <div class="caf-wrap" id="cafList">
+      <div class="caf-row reveal" data-w="88"><div class="name">冷萃咖啡<small>360 ml</small></div><div class="track"><div class="fill"></div></div><div class="mg">~200</div></div>
+      <div class="caf-row reveal" data-w="53"><div class="name">美式滴滤<small>240 ml</small></div><div class="track"><div class="fill"></div></div><div class="mg">~120</div></div>
+      <div class="caf-row reveal d1" data-w="53"><div class="name">美式（双份浓缩）<small>~300 ml</small></div><div class="track"><div class="fill"></div></div><div class="mg">~126</div></div>
+      <div class="caf-row reveal d2" data-w="28"><div class="name">拿铁 / 卡布奇诺<small>单份浓缩 300 ml</small></div><div class="track"><div class="fill"></div></div><div class="mg">~63</div></div>
+      <div class="caf-row reveal" data-w="28"><div class="name">意式浓缩<small>单份 30 ml</small></div><div class="track"><div class="fill"></div></div><div class="mg">~63</div></div>
+      <div class="caf-row reveal d1" data-w="26"><div class="name">速溶咖啡<small>240 ml</small></div><div class="track"><div class="fill"></div></div><div class="mg">~60</div></div>
+      <div class="caf-row reveal d2" data-w="2"><div class="name">低因咖啡<small>240 ml</small></div><div class="track"><div class="fill"></div></div><div class="mg">~3</div></div>
+      <div class="caf-row reveal d3" data-w="14"><div class="name">参考：红茶<small>240 ml</small></div><div class="track"><div class="fill"></div></div><div class="mg">~47</div></div>
+      <div class="caf-row reveal" data-w="5"><div class="name">参考：可乐<small>330 ml</small></div><div class="track"><div class="fill"></div></div><div class="mg">~34</div></div>
+    </div>
+    <div class="caf-limit reveal">
+      <div>💡</div>
+      <div><b>安全剂量参考：</b>健康成人每日咖啡因建议不超过 <b>400 mg</b>（约 3–4 杯美式）；孕期及哺乳期建议 ≤ 200 mg。咖啡因半衰期约 4–6 小时，敏感人群下午 2–3 点后建议停饮。罗布斯塔的咖啡因约为阿拉比卡的两倍。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 健康 ================= -->
+<section id="health" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Chapter 11 · Health</div>
+      <h2>咖啡与人体：是<em>良药</em>还是<em>负担</em>？</h2>
+      <div class="en-sub">Coffee &amp; Your Body</div>
+      <p class="lead">咖啡是研究最充分的饮品之一。对多数健康成人而言，适量饮用利大于弊——但"适量"与"个体差异"是两个关键词。</p>
+    </div>
+    <div class="health-grid">
+      <div class="health-col good reveal">
+        <h3>✓ 适量饮用的益处</h3>
+        <ul>
+          <li><div><b>提神与认知</b>咖啡因阻断腺苷受体，提升警觉性、专注力与反应速度，起效约 15–45 分钟。</div></li>
+          <li><div><b>抗氧化来源</b>绿原酸、多酚类物质丰富，是许多人日常饮食中最大的抗氧化剂来源。</div></li>
+          <li><div><b>代谢与肝脏</b>多项队列研究显示规律饮用与 2 型糖尿病、脂肪肝、肝硬化风险降低相关。</div></li>
+          <li><div><b>神经保护</b>长期适量摄入与帕金森病、阿尔茨海默病风险降低存在流行病学关联。</div></li>
+          <li><div><b>运动表现</b>运动前 30–60 分钟摄入可提升耐力与脂肪动员效率，是国际奥委会认可的方式。</div></li>
+        </ul>
+      </div>
+      <div class="health-col bad reveal d1">
+        <h3>✕ 过量 / 不当饮用的风险</h3>
+        <ul>
+          <li><div><b>睡眠干扰</b>半衰期 4–6 小时，傍晚饮用可能延迟入睡、降低深睡眠比例，即使"睡得着"质量也会打折。</div></li>
+          <li><div><b>焦虑与心悸</b>单次超过 200 mg 可能引发心悸、手抖、焦虑加重，焦虑障碍人群尤需谨慎。</div></li>
+          <li><div><b>胃肠刺激</b>促进胃酸分泌与肠道蠕动，空腹饮用易反酸、胃部不适，胃食管反流者建议餐后喝。</div></li>
+          <li><div><b>血压波动</b>可使血压短时升高 5–10 mmHg，未控制的高血压患者应限制摄入并咨询医生。</div></li>
+          <li><div><b>依赖与戒断</b>每日规律摄入突然停止，可能在 12–24 小时内出现头痛、疲劳、易怒，持续 2–9 天。</div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="faq reveal" id="faq">
+      <div class="faq-item"><button class="faq-q">哪些人群需要特别注意？<span class="arrow">+</span></button><div class="faq-a"><div class="inner">孕妇及备孕女性（≤200 mg/天并遵医嘱）、哺乳期妈妈（咖啡因可进入乳汁）、儿童青少年（不建议摄入）、心律失常或焦虑障碍患者、严重胃食管反流患者、骨质疏松高风险人群（咖啡因轻微促进钙流失，可通过补钙平衡）。</div></div></div>
+      <div class="faq-item"><button class="faq-q">一天中什么时间喝最科学？<span class="arrow">+</span></button><div class="faq-a"><div class="inner">起床后 1–2 小时最佳：此时皮质醇自然回落，咖啡因提神效率最高，也避免空腹刺激。避免在计划入睡前 6–8 小时饮用。午后犯困可选择"咖啡盹"（coffee nap）：快速喝一杯后立刻小睡 20 分钟，醒来时咖啡因正好起效。</div></div></div>
+      <div class="faq-item"><button class="faq-q">加奶加糖会抵消健康益处吗？<span class="arrow">+</span></button><div class="faq-a"><div class="inner">加奶影响很小（多酚吸收率略降但不显著）；真正需要注意的是糖与植脂末。一杯风味糖浆拿铁可能含 30–40 g 糖，远超每日建议添加糖上限的一半。想兼顾风味与健康，优先选鲜奶、不加糖浆，或用少量肉桂粉调味。</div></div></div>
+      <div class="faq-item"><button class="faq-q">喝咖啡会导致脱水或缺钙吗？<span class="arrow">+</span></button><div class="faq-a"><div class="inner">不会脱水：咖啡因利尿作用温和，规律饮用者会产生耐受，一杯咖啡的净水分摄入仍为正。对钙的影响也很轻微（每杯约流失 4–6 mg 钙，一勺牛奶即可补回）。但绝经后女性等高风险人群建议控制总量并保证钙摄入。</div></div></div>
+      <div class="faq-item"><button class="faq-q">咖啡能"解酒"或空腹喝减肥吗？<span class="arrow">+</span></button><div class="faq-a"><div class="inner">都不能。咖啡因无法加速酒精代谢，只会让人"清醒地醉"，更危险。空腹喝黑咖啡确实短暂抑制食欲并提升代谢率，但幅度有限，且空腹刺激胃酸，不适合作为减肥手段。健康减脂没有捷径。</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 保存 ================= -->
+<section id="store">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">Chapter 12 · Storage</div>
+      <h2>新鲜度与保存：<em>风味保鲜</em>守则</h2>
+      <div class="en-sub">Keep It Fresh</div>
+      <p class="lead">烘焙后的咖啡豆不是越新鲜越好，也绝非能永久保存。掌握养豆与密封避光的原则，每一杯都值得。</p>
+    </div>
+    <div class="store-grid">
+      <div class="store-card reveal"><div class="icon">🌬️</div><h3>养豆期</h3><p>烘焙后豆子持续释放 CO₂，浅烘养豆 7–14 天、深烘 3–7 天风味进入峰值窗口。</p><div class="do">✓ 烘焙日期比保质期更重要</div></div>
+      <div class="store-card reveal d1"><div class="icon">📦</div><h3>密封避光</h3><p>氧气、光照、高温、湿气是风味四大杀手。用带单向排气阀的密封罐，置于阴凉橱柜。</p><div class="do">✗ 不要用透明罐子摆窗台</div></div>
+      <div class="store-card reveal d2"><div class="icon">🧊</div><h3>能否冷藏？</h3><p>日常饮用不建议放冷藏——反复取用易吸潮串味。需囤豆可分小袋密封冷冻，喝前整袋回温再开封。</p><div class="do">✓ 冷冻可，冷藏不建议</div></div>
+      <div class="store-card reveal d3"><div class="icon">⏳</div><h3>最佳赏味期</h3><p>整豆：烘焙后 1–2 个月内风味最佳；磨粉后：15 分钟起香气快速流失，建议 1 周内喝完——最好现磨。</p><div class="do">✓ 买豆不买粉，现磨现冲</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 页脚 ================= -->
+<footer>
+  <div class="f-logo">Coffee Pedia</div>
+  <p>从埃塞俄比亚高原的一颗红色浆果，到您手中的这一杯——愿每一次冲煮，都是与世界另一端风土的对话。</p>
+  <p class="fine">咖啡百科 Coffee Pedia · 数据为近年行业公开平均值，仅供参考 · Built with ☕</p>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="回到顶部">↑</button>
+
+<script>
+/* ============ 导航：滚动隐藏 / scrollspy / 移动端 ============ */
+const nav=document.getElementById('nav'),navLinks=document.getElementById('navLinks');
+let lastY=0;
+addEventListener('scroll',()=>{
+  const y=scrollY;
+  nav.classList.toggle('hide',y>400&&y>lastY);
+  lastY=y;
+  document.getElementById('toTop').classList.toggle('show',y>600);
+},{passive:true});
+document.getElementById('navToggle').onclick=()=>navLinks.classList.toggle('open');
+navLinks.querySelectorAll('a').forEach(a=>a.onclick=()=>navLinks.classList.remove('open'));
+document.getElementById('toTop').onclick=()=>scrollTo({top:0,behavior:'smooth'});
+
+/* scrollspy */
+const secs=[...document.querySelectorAll('section[id]')];
+const links={};navLinks.querySelectorAll('a').forEach(a=>links[a.getAttribute('href').slice(1)]=a);
+const spy=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      navLinks.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
+      links[e.target.id]&&links[e.target.id].classList.add('active');
+    }
+  });
+},{rootMargin:'-40% 0px -55% 0px'});
+secs.forEach(s=>spy.observe(s));
+
+/* ============ 滚动显现 & 数据条动画 ============ */
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.classList.add('in');
+    const row=e.target.closest('[data-w]');
+    if(row){const bar=row.querySelector('.bar,.fill');bar&&(bar.style.width=row.dataset.w+'%');}
+    if(e.target.closest('#rankList,#cafList')&&!e.target.closest('[data-w]')){
+      e.target.querySelectorAll('[data-w] .bar,[data-w] .fill').forEach((b,i)=>{
+        setTimeout(()=>b.style.width=b.closest('[data-w]').dataset.w+'%',i*90);
+      });
+    }
+    io.unobserve(e.target);
+  });
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+/* 数字滚动 */
+document.querySelectorAll('[data-count]').forEach(el=>{
+  const end=+el.dataset.count;let t0;
+  const step=t=>{t0=t0||t;const p=Math.min((t-t0)/1600,1);el.textContent=Math.round(end*(1-Math.pow(1-p,3)));p<1&&requestAnimationFrame(step);};
+  new IntersectionObserver((es,o)=>{es[0].isIntersecting&&(requestAnimationFrame(step),o.disconnect());},{threshold:.5}).observe(el);
+});
+
+/* ============ 饮品图谱数据 ============ */
+const DRINKS=[
+ {id:'espresso',tab:'浓缩',name:'意式浓缩',en:'Espresso',desc:'一切意式饮品的原点。9 bar 压力、25–30 秒萃取出约 30 ml 浓缩液，表面浮着榛子色 Crema。小口慢饮，感受风味的密集轰炸。',
+  ratio:['30 ml','1 份浓缩','零添加'],
+  layers:[['#3a2314',38,'浓缩液'],['#c09a6a',10,'Crema 油脂']]},
+ {id:'americano',tab:'美式',name:'美式咖啡',en:'Americano',desc:'浓缩加水稀释而成。相传源于二战时驻意美军兑水还原家乡滴滤口感。清爽干净，是黑咖啡入门首选，冰美式更是夏日续命神器。',
+  ratio:['1 份浓缩','2–4 份热水','低卡零脂'],
+  layers:[['#5a3a20',60,'热水稀释咖啡'],['#3a2314',20,'浓缩基底']]},
+ {id:'latte',tab:'拿铁',name:'拿铁',en:'Caffè Latte',desc:'浓缩 + 大量蒸汽牛奶 + 薄奶泡，牛奶的甜包裹咖啡的苦，温柔顺滑。Latte 在意大利语中就是"牛奶"——在意大利点 Latte 只会得到一杯牛奶。',
+  ratio:['1 份浓缩','3–5 份牛奶','奶泡 1 cm'],
+  layers:[['#3a2314',16,'浓缩'],['#d9b894',72,'蒸汽牛奶'],['#f0e2cd',10,'薄奶泡']]},
+ {id:'cappuccino',tab:'卡布奇诺',name:'卡布奇诺',en:'Cappuccino',desc:'浓缩、牛奶、奶泡三等分，奶泡厚实绵密如斗篷——名字正源于嘉布遣会修士的褐色袍帽。意大利人的早餐限定，下午点它会被"识破"游客身份。',
+  ratio:['1 份浓缩','1 份牛奶','1 份厚奶泡'],
+  layers:[['#3a2314',32,'浓缩'],['#d9b894',32,'牛奶'],['#f5ead6',34,'厚奶泡']]},
+ {id:'flatwhite',tab:'馥芮白',name:'馥芮白 / 澳白',en:'Flat White',desc:'源自澳新，双份浓缩 + 细腻微奶泡，咖啡浓度高于拿铁、杯量更小。奶泡如天鹅绒般"平铺"，故名 Flat White。想喝咖啡味重的奶咖就选它。',
+  ratio:['2 份浓缩','薄奶泡','小杯量 ~150 ml'],
+  layers:[['#3a2314',34,'双份浓缩'],['#d9b894',58,'丝滑牛奶'],['#f0e2cd',6,'微奶泡']]},
+ {id:'macchiato',tab:'玛奇朵',name:'浓缩玛奇朵',en:'Espresso Macchiato',desc:'Macchiato 意为"印记"：一份浓缩上点一勺奶泡作印记，咖啡味主导、微奶香中和。注意它与焦糖玛奇朵是完全不同的两种东西。',
+  ratio:['1 份浓缩','一勺奶泡','杯量 ~60 ml'],
+  layers:[['#3a2314',42,'浓缩'],['#c09a6a',10,'Crema'],['#f5ead6',12,'奶泡印记']]},
+ {id:'cortado',tab:'可塔朵',name:'可塔朵',en:'Cortado',desc:'西班牙国民咖啡，浓缩与温牛奶 1:1，几乎无奶泡。"Cortar"意为切割——用奶的甜刚好"切断"浓缩的酸苦，平衡派的最爱。',
+  ratio:['1 份浓缩','1 份温奶','几乎无泡'],
+  layers:[['#3a2314',38,'浓缩'],['#d9b894',40,'温牛奶']]},
+ {id:'mocha',tab:'摩卡',name:'摩卡',en:'Caffè Mocha',desc:'浓缩 + 巧克力酱 + 牛奶 + 奶泡/奶油，咖啡与巧克力的双重快乐。名字致敬也门摩卡港——历史上最重要的咖啡贸易港。',
+  ratio:['1 份浓缩','巧克力酱','牛奶 + 奶泡'],
+  layers:[['#4a2410',18,'巧克力酱'],['#3a2314',16,'浓缩'],['#d9b894',52,'牛奶'],['#f5ead6',12,'奶泡']]}
+];
+const tabsBox=document.getElementById('drinkTabs'),panelsBox=document.getElementById('drinkPanels');
+DRINKS.forEach((d,i)=>{
+  const b=document.createElement('button');b.textContent=d.tab;i===0&&b.classList.add('on');
+  b.onclick=()=>{tabsBox.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+    panelsBox.querySelectorAll('.drink-panel').forEach(p=>p.classList.remove('on'));
+    document.getElementById('p-'+d.id).classList.add('on');};
+  tabsBox.appendChild(b);
+  const p=document.createElement('div');p.className='drink-panel'+(i===0?' on':'');p.id='p-'+d.id;
+  p.innerHTML=`
+    <div class="drink-cup">${d.layers.map(l=>`<div class="layer" style="height:${l[1]}%;background:${l[0]}"><span>${l[2]}</span></div>`).join('')}</div>
+    <div class="drink-info"><h3>${d.name}</h3><div class="en-name">${d.en}</div><p>${d.desc}</p>
+    <div class="ratio">${d.ratio.map(r=>`<span>${r}</span>`).join('')}</div></div>`;
+  panelsBox.appendChild(p);
+});
+
+/* ============ FAQ 手风琴 ============ */
+document.querySelectorAll('.faq-item').forEach(item=>{
+  const q=item.querySelector('.faq-q'),a=item.querySelector('.faq-a');
+  q.onclick=()=>{
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(x=>{x.classList.remove('open');x.querySelector('.faq-a').style.maxHeight=0;});
+    if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
+  };
+});
+</script>
+</body>
+</html>
